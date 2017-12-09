@@ -1,0 +1,18 @@
+
+.gameScreen {
+	background-color: teal;
+	width: 800px;
+	height: 400px;
+}
+
+#TestBot {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+}
+
+p {
+	position: relative;
+	top: 5px;
+	left: 5px;
+}
