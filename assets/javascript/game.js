@@ -4,7 +4,8 @@
 //___________________________________________________VARIABLES______________________________________________
 
 var gamePhase = 0;
-var playerChar;
+var playerChar = undefined;
+var charList = [];
 var enemyChar;
 var enemyChars = [];
 
@@ -12,7 +13,7 @@ var enemyChars = [];
 var char = {
 	char1: { //for testing
 		img: '../jQuery-RPG/assets/images/testBot.png',
-		name: "TestBot",
+		name: "TestBot1",
 		lvl: 50, //max 100, no effect
 		hp: 140, //max 200
 		atk: 6, //max 10, multiplies move dmg
@@ -21,68 +22,79 @@ var char = {
 		movepool: ["", "", "", ""] //4 moves
 	},
 	char2: {
-		img: "",
-		name: "",
-		lvl: 0,
-		hp: 0,
-		atk: 0,
-		def: 0,
-		spd: 0,
-		movepool: ["", "", "", ""]
+		img: '../jQuery-RPG/assets/images/testBot.png',
+		name: "TestBot2",
+		lvl: 50, //max 100, no effect
+		hp: 140, //max 200
+		atk: 6, //max 10, multiplies move dmg
+		def: 3, //max 10, dmg reduction
+		spd: 7, //max 10, decides who moves first
+		movepool: ["", "", "", ""] //4 moves
 	},
 	char3: {
-		img: "",
-		name: "",
-		lvl: 0,
-		hp: 0,
-		atk: 0,
-		def: 0,
-		spd: 0,
-		movepool: ["", "", "", ""]
+		img: '../jQuery-RPG/assets/images/testBot.png',
+		name: "TestBot3",
+		lvl: 50, //max 100, no effect
+		hp: 140, //max 200
+		atk: 6, //max 10, multiplies move dmg
+		def: 3, //max 10, dmg reduction
+		spd: 7, //max 10, decides who moves first
+		movepool: ["", "", "", ""] //4 moves
 	},
 	char4: {
-		img: "",
-		name: "",
-		lvl: 0,
-		hp: 0,
-		atk: 0,
-		def: 0,
-		spd: 0,
-		movepool: ["", "", "", ""]
+		img: '../jQuery-RPG/assets/images/testBot.png',
+		name: "TestBot4",
+		lvl: 50, //max 100, no effect
+		hp: 140, //max 200
+		atk: 6, //max 10, multiplies move dmg
+		def: 3, //max 10, dmg reduction
+		spd: 7, //max 10, decides who moves first
+		movepool: ["", "", "", ""] //4 moves
 	},
 	char5: {
-		img: "",
-		name: "",
-		lvl: 0,
-		hp: 0,
-		atk: 0,
-		def: 0,
-		spd: 0,
-		movepool: ["", "", "", ""]
+		img: '../jQuery-RPG/assets/images/testBot.png',
+		name: "TestBot5",
+		lvl: 50, //max 100, no effect
+		hp: 140, //max 200
+		atk: 6, //max 10, multiplies move dmg
+		def: 3, //max 10, dmg reduction
+		spd: 7, //max 10, decides who moves first
+		movepool: ["", "", "", ""] //4 moves
 	},
 	char6: {
-		img: "",
-		name: "",
-		lvl: 0,
-		hp: 0,
-		atk: 0,
-		def: 0,
-		spd: 0,
-		movepool: ["", "", "", ""]
+		img: '../jQuery-RPG/assets/images/testBot.png',
+		name: "TestBot6",
+		lvl: 50, //max 100, no effect
+		hp: 140, //max 200
+		atk: 6, //max 10, multiplies move dmg
+		def: 3, //max 10, dmg reduction
+		spd: 7, //max 10, decides who moves first
+		movepool: ["", "", "", ""] //4 moves
 	},
+
 	display: function (selectedChar) {
 		//show char img, name, lvl, hp
-		var charDisplay = $("<div>");
+		var charDisplay = $("<div>", {
+			id: selectedChar.name
+		});
 		var charImg = $("<img>", {
-			id: selectedChar.name,
 			src: selectedChar.img,
 			width: 50,
 			height: 50
 		});
-		//var charText = $("<p>Lvl "+selectedChar.lvl+", "+selectedChar.name+", HP: "+selectedChar.hp+"</p>");
-		//charText.appendTo(charDisplay);
-		charDisplay.text("Lvl "+selectedChar.lvl+", "+selectedChar.name+", HP: "+selectedChar.hp);
+		var charLvl = $("<div>", {
+			text: "Lvl: "+selectedChar.lvl
+		});
+		var charName = $("<div>", {
+			text: selectedChar.name
+		});
+		var charHP = $("<div>", {
+			text: "HP: "+selectedChar.hp
+		})
+		charHP.appendTo(charDisplay);
 		charImg.appendTo(charDisplay);
+		charLvl.appendTo(charDisplay);
+		charName.appendTo(charDisplay);
 		charDisplay.appendTo($(".gameScreen"));
 	},
 	description: function (selectedChar) {
@@ -101,7 +113,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -112,7 +124,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -123,7 +135,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -134,7 +146,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -145,7 +157,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -156,7 +168,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -167,7 +179,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -178,7 +190,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -189,7 +201,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -200,7 +212,7 @@ var moveList = {
 		dmg: 0,
 		block: 0,
 		heal: 0,
-		animate: function () {
+		animate: function (selectedChar) {
 		//animates the move
 		}
 	},
@@ -214,33 +226,291 @@ var moveList = {
 
 //_________________________________________________GAME_MECHANICS___________________________________________
 
+charList = [char.char1, char.char2, char.char3, char.char4, char.char5, char.char6];
+
 //TESTING:
-char.display(char.char1);
+startScreen();
 
 //Displays the titleScreen and startButton
 function startScreen() {
 	//set var gamePhase = 1;
 	gamePhase = 1;
-	//if startButton pressed, startGame();
+	//creates titleScreen;
+	var titleScreen = $("<div>", {
+		id: "title"
+	});
+	titleScreen.appendTo($(".gameScreen"));
+	//creates the titleImg;
+	var titleImg = $("<img>", {
+		src: "http://via.placeholder.com/800x400"
+	});
+	titleImg.appendTo(titleScreen);
+	//creates startBtn;
 	var startBtn = $("<button>");
-	$(startBtn).addClass("letter-button letter letter-button-color");
-
+	$(startBtn).addClass("start-button");
+	startBtn.text("START");
+	startBtn.appendTo(titleScreen);
+	//if startButton pressed, startGame();
+	startBtn.on("click", function () {
+		titleImg.toggle();
+		startBtn.toggle();
+		startGame();
+	});
 }
 
 //Starts the game. Allows the user to choose a character, and an opponent to face.
 function startGame() {
-	//showSelection();
-	//chooseChar();
-	//chooseEnemy();
+	selectScreen();
+	chooseChar();
 	//nextPhase();
+
+	var confirmBtn = $("<button>");
+	$(confirmBtn).addClass("confirm-button");
+	confirmBtn.text("CONFIRM");
+	confirmBtn.appendTo($(".gameScreen"));
+	confirmBtn.click(function () {
+		if (playerChar != undefined) {
+			confirmBtn.toggle();
+			//chooseEnemy();
+		}
+	});
 }
 
 //Shows the characters that can be selected.
-//Player clicks on a character to highlight it, then clicks the confirm button.
-function showSelection() {
+
+function selectScreen() {
+	alert("Choose your character!");
 	//display chars;
+	for (i=0; i<charList.length; i++) {
+		char.display(charList[i]);
+		var c = document.getElementById(charList[i].name);
+		c.style.position = "absolute";
+		c.style.left = i*65+30+"px";
+		c.style.top = "10px";
+		if (i>2) {
+			c.style.top = "130px";
+			c.style.left = (i-3)*65+30+"px";
+		}
+	}
 }
 
+//Player clicks on a character to highlight it, then clicks the confirm button.
+function chooseChar() {
+	var clicked = false;
+	$("#TestBot1").click(function () {
+		if (clicked == false) {
+			playerChar = "TestBot1";
+			console.log("a char has been selected: "+playerChar);
+			$("#TestBot1").css({
+				"border-color": "blue",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			playerChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot2").click(function () {
+		if (clicked == false) {
+			playerChar = "TestBot2";
+			$("#TestBot2").css({
+				"border-color": "blue",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			playerChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot3").click(function () {
+		if (clicked == false) {
+			playerChar = "TestBot3";
+			$("#TestBot3").css({
+				"border-color": "blue",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			playerChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot4").click(function () {
+		if (clicked == false) {
+			playerChar = "TestBot4";
+			$("#TestBot4").css({
+				"border-color": "blue",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			playerChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot5").click(function () {
+		if (clicked == false) {
+			playerChar = "TestBot5";
+			$("#TestBot5").css({
+				"border-color": "blue",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			playerChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot6").click(function () {
+		if (clicked == false) {
+			playerChar = "TestBot6";
+			$("#TestBot6").css({
+				"border-color": "blue",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			playerChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+}
+
+function setAllUnclicked() {
+	$("#TestBot1").css({
+				"border-color": "none",
+				"border-weight": "0px",
+				"border-style": "none"});
+	$("#TestBot2").css({
+				"border-color": "none",
+				"border-weight": "0px",
+				"border-style": "none"});
+	$("#TestBot3").css({
+				"border-color": "none",
+				"border-weight": "0px",
+				"border-style": "none"});
+	$("#TestBot4").css({
+				"border-color": "none",
+				"border-weight": "0px",
+				"border-style": "none"});
+	$("#TestBot5").css({
+				"border-color": "none",
+				"border-weight": "0px",
+				"border-style": "none"});
+	$("#TestBot6").css({
+				"border-color": "none",
+				"border-weight": "0px",
+				"border-style": "none"});
+}
+
+function chooseEnemy() {
+	var clicked = false;
+	$("#TestBot1").click(function () {
+		if (clicked == false) {
+			enemyChar = "TestBot1";
+			console.log("a char has been selected: "+enemyChar);
+			$("#TestBot1").css({
+				"border-color": "red",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			enemyChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot2").click(function () {
+		if (clicked == false) {
+			enemyChar = "TestBot2";
+			$("#TestBot2").css({
+				"border-color": "red",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			enemyChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot3").click(function () {
+		if (clicked == false) {
+			enemyChar = "TestBot3";
+			$("#TestBot3").css({
+				"border-color": "red",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			enemyChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot4").click(function () {
+		if (clicked == false) {
+			enemyChar = "TestBot4";
+			$("#TestBot4").css({
+				"border-color": "red",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			enemyChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot5").click(function () {
+		if (clicked == false) {
+			enemyChar = "TestBot5";
+			$("#TestBot5").css({
+				"border-color": "red",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			enemyChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+	$("#TestBot6").click(function () {
+		if (clicked == false) {
+			enemyChar = "TestBot6";
+			$("#TestBot6").css({
+				"border-color": "red",
+				"border-weight": "1px",
+				"border-style": "solid"});
+			clicked = true;
+		}
+		else if (clicked == true) {
+			enemyChar = undefined;
+			setAllUnclicked();
+			clicked = false;
+		}
+	});
+}
 //Starts the next phase of the game. Either starts the battle mode, or returns to the selection screen.
 //Also checks if there are any opponents left to battle.
 //If there are none, then the player has beaten the game.
