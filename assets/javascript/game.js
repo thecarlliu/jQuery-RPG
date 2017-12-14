@@ -262,7 +262,6 @@ function startScreen() {
 function startGame() {
 	selectScreen();
 	chooseChar();
-	//nextPhase();
 
 	var confirmBtn = $("<button>");
 	$(confirmBtn).addClass("confirm-button");
@@ -271,7 +270,8 @@ function startGame() {
 	confirmBtn.click(function () {
 		if (playerChar != undefined) {
 			confirmBtn.toggle();
-			//chooseEnemy();
+			setEnemies();
+			nextPhase();
 		}
 	});
 }
@@ -391,138 +391,54 @@ function chooseChar() {
 }
 
 function setAllUnclicked() {
-	$("#TestBot1").css({
-				"border-color": "none",
-				"border-weight": "0px",
-				"border-style": "none"});
-	$("#TestBot2").css({
-				"border-color": "none",
-				"border-weight": "0px",
-				"border-style": "none"});
-	$("#TestBot3").css({
-				"border-color": "none",
-				"border-weight": "0px",
-				"border-style": "none"});
-	$("#TestBot4").css({
-				"border-color": "none",
-				"border-weight": "0px",
-				"border-style": "none"});
-	$("#TestBot5").css({
-				"border-color": "none",
-				"border-weight": "0px",
-				"border-style": "none"});
-	$("#TestBot6").css({
-				"border-color": "none",
-				"border-weight": "0px",
-				"border-style": "none"});
+	for (i=0; i<charList.length, i++) {
+		$("#"+charList.name).css({
+			"border-color": "none",
+			"border-weight": "0px",
+			"border-style": "none"
+		});
+	}
 }
 
-function chooseEnemy() {
-	var clicked = false;
-	$("#TestBot1").click(function () {
-		if (clicked == false) {
-			enemyChar = "TestBot1";
-			console.log("a char has been selected: "+enemyChar);
-			$("#TestBot1").css({
-				"border-color": "red",
-				"border-weight": "1px",
-				"border-style": "solid"});
-			clicked = true;
+function setEnemies() {
+	for (i=0; i<charList.length; i++) {
+		if (playerChar != charList[i].name) {
+			charList[i].appendTo(enemyChars);
 		}
-		else if (clicked == true) {
-			enemyChar = undefined;
-			setAllUnclicked();
-			clicked = false;
-		}
-	});
-	$("#TestBot2").click(function () {
-		if (clicked == false) {
-			enemyChar = "TestBot2";
-			$("#TestBot2").css({
-				"border-color": "red",
-				"border-weight": "1px",
-				"border-style": "solid"});
-			clicked = true;
-		}
-		else if (clicked == true) {
-			enemyChar = undefined;
-			setAllUnclicked();
-			clicked = false;
-		}
-	});
-	$("#TestBot3").click(function () {
-		if (clicked == false) {
-			enemyChar = "TestBot3";
-			$("#TestBot3").css({
-				"border-color": "red",
-				"border-weight": "1px",
-				"border-style": "solid"});
-			clicked = true;
-		}
-		else if (clicked == true) {
-			enemyChar = undefined;
-			setAllUnclicked();
-			clicked = false;
-		}
-	});
-	$("#TestBot4").click(function () {
-		if (clicked == false) {
-			enemyChar = "TestBot4";
-			$("#TestBot4").css({
-				"border-color": "red",
-				"border-weight": "1px",
-				"border-style": "solid"});
-			clicked = true;
-		}
-		else if (clicked == true) {
-			enemyChar = undefined;
-			setAllUnclicked();
-			clicked = false;
-		}
-	});
-	$("#TestBot5").click(function () {
-		if (clicked == false) {
-			enemyChar = "TestBot5";
-			$("#TestBot5").css({
-				"border-color": "red",
-				"border-weight": "1px",
-				"border-style": "solid"});
-			clicked = true;
-		}
-		else if (clicked == true) {
-			enemyChar = undefined;
-			setAllUnclicked();
-			clicked = false;
-		}
-	});
-	$("#TestBot6").click(function () {
-		if (clicked == false) {
-			enemyChar = "TestBot6";
-			$("#TestBot6").css({
-				"border-color": "red",
-				"border-weight": "1px",
-				"border-style": "solid"});
-			clicked = true;
-		}
-		else if (clicked == true) {
-			enemyChar = undefined;
-			setAllUnclicked();
-			clicked = false;
-		}
-	});
+	}
 }
 //Starts the next phase of the game. Either starts the battle mode, or returns to the selection screen.
 //Also checks if there are any opponents left to battle.
 //If there are none, then the player has beaten the game.
 function nextPhase() {
 	//if gamePhase ==1, set ==2, startBattle();
+	if (gamePhase == 1) {
+		gamePhase =2;
+		startBattle();
+	}
 	//if gamePhase ==2, set ==1, chooseBattle();
+	else if (gamePhase == 2) {
+		gamePhase = 1;
+		chooseBattle();
+	}
 	//if no opponents are left, gameWin();
+	else if (enemyChars.length == 0) {
+		gameWin();
+	}
 }
 
 //Initiates the battle mode. And allows the user to make a decision, also known as taking a turn.
 function startBattle() {
-	//takeTurn();
+	var battleScreen = $("<div>", {
+		id: "battle"
+	});
+	battleScreen.appendTo($(".gameScreen"));
+	//creates the titleImg;
+	var titleImg = $("<img>", {
+		src: "http://via.placeholder.com/800x400"
+	});
+	titleImg.appendTo(titleScreen);
+	takeTurn();
 }
 
 //The player can choose to use a move from their movepool. The enemy will do the same.
